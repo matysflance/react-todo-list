@@ -1,10 +1,6 @@
 import { useState, useEffect, useReducer } from 'react';
 import { TodoListCard } from '../../components/TodoListCard/TodoListCard';
 
-import { Row, Col, Layout, Typography, Form, Input, Button } from 'antd';
-const { Title } = Typography;
-const { Header, Content, Footer } = Layout;
-
 const TODO_ACTIONS = {
   ADD_LIST: 'add-list',
   DELETE_LIST: 'delete-list',
@@ -93,16 +89,10 @@ const todoReducer = (todoLists, action) => {
 };
 
 export const TodoDashboard = () => {
-  const [form] = Form.useForm();
-  const [, forceUpdate] = useState({}); // To disable submit button at the beginning.
   const [todoLists, dispatch] = useReducer(todoReducer, initialTodoLists);
 
-  useEffect(() => {
-    forceUpdate({});
-  }, []);
   const handleSubmit = (values) => {
     dispatch({ type: TODO_ACTIONS.ADD_LIST, payload: { name: values.todoListName } });
-    form.resetFields();
   };
   const handleDeleteList = (listId) => {
     dispatch({ type: TODO_ACTIONS.DELETE_LIST, payload: { listId: listId } });
@@ -119,66 +109,29 @@ export const TodoDashboard = () => {
   const handleCompleteAll = (listId) => {
     dispatch({ type: TODO_ACTIONS.COMPLETE_ALL_TASKS, payload: { listId: listId } });
   };
+
   return (
-    <>
-      <Header className="site-layout-background" style={{ height: 'auto', padding: '15px 25px' }}>
-        <Title style={{ color: '#fafafa', margin: 0, fontSize: 30 }}>Your Todos</Title>
-      </Header>
-      <Content style={{ margin: '0 16px' }}>
-        <div
-          className="site-layout-background"
-          style={{ paddingTop: 16, paddingBottom: 16, minHeight: 360 }}
-        >
-          <Row gutter={[16, 16]}>
-            {/* <Col span={10} offset={7}> */}
-            <Col xs={24} sm={12}>
-              <Form form={form} name="horizontal_login" layout="inline" onFinish={handleSubmit}>
-                <Form.Item
-                  name="todoListName"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please input new todo list name!',
-                    },
-                  ]}
-                >
-                  <Input placeholder="New list name" />
-                </Form.Item>
-                <Form.Item shouldUpdate={true}>
-                  {() => (
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      disabled={
-                        !form.isFieldsTouched(true) ||
-                        !!form.getFieldsError().filter(({ errors }) => errors.length).length
-                      }
-                    >
-                      Add
-                    </Button>
-                  )}
-                </Form.Item>
-              </Form>
-            </Col>
-          </Row>
-          <Row gutter={[16, 16]}>
-            {todoLists.map((list) => (
-              <Col key={list.id} xs={24} md={12} xl={8}>
-                <TodoListCard
-                  todoList={list}
-                  handleDeleteList={handleDeleteList}
-                  handleAddTask={handleAddTask}
-                  handleDeleteTask={handleDeleteTask}
-                  handleToggleTask={handleToggleTask}
-                  handleCompleteAll={handleCompleteAll}
-                />
-              </Col>
-            ))}
-          </Row>
-        </div>
-      </Content>
-      <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-    </>
+    <section>
+      <header>
+        <h1>Your Todos</h1>
+      </header>
+      <form action="" onSubmit={handleSubmit}>
+        <input type="text" name="todoListName" required />
+        <button type="submit">Add</button>
+      </form>
+
+      {todoLists.map((list) => (
+        <TodoListCard
+          todoList={list}
+          handleDeleteList={handleDeleteList}
+          handleAddTask={handleAddTask}
+          handleDeleteTask={handleDeleteTask}
+          handleToggleTask={handleToggleTask}
+          handleCompleteAll={handleCompleteAll}
+        />
+      ))}
+      <footer>Created by Sebastian Matysiak</footer>
+    </section>
   );
 };
 

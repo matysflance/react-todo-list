@@ -1,7 +1,3 @@
-import React from 'react';
-import { List, Button } from 'antd';
-import { CheckSquareOutlined } from '@ant-design/icons';
-
 import { TodoListItem } from './TodoListItem/TodoListItem';
 
 export const TodoList = ({
@@ -12,12 +8,9 @@ export const TodoList = ({
   handleToggleTask,
 }) => {
   return (
-    <form action="">
-      <List
-        size="small"
-        bordered={false}
-        dataSource={tasks}
-        renderItem={(task) => (
+    <>
+      <ul>
+        {tasks.map((task) => (
           <TodoListItem
             key={task.id}
             style={{ paddingLeft: 0, paddingRight: 0 }}
@@ -26,22 +19,20 @@ export const TodoList = ({
             handleDeleteTask={handleDeleteTask}
             handleToggleTask={handleToggleTask}
           />
-        )}
-      />
+        ))}
+      </ul>
       {tasks.length > 0 ? (
-        <Button
-          block
-          icon={<CheckSquareOutlined />}
-          style={{ marginTop: 10 }}
+        <button
+          type="button"
           onClick={() => {
             handleCompleteAll(listId);
           }}
         >
           Mark all as complete
-        </Button>
+        </button>
       ) : (
         false
       )}
-    </form>
+    </>
   );
 };

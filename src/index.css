@@ -1,0 +1,56 @@
+:root {
+  --main-background-color: #eeeeee;
+  --sidebar-background-color: #383838;
+  --color-primary: #4ca2cd;
+  --color-primary-dark: #2698d1;
+  --color-secondary: #67b26f;
+  --border-radius: 3rem;
+}
+
+/* BASIC CSS RESET */
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  font-family: 'Poppins', sans-serif; /* 400/500/700 */
+  font-size: 1.4rem;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* GLOBAL STYLES */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.container {
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}

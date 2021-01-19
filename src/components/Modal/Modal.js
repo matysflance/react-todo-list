@@ -1,29 +1,14 @@
-import React, { useState } from 'react';
-import { Button } from 'antd';
-import { Modal as ANTDModal } from 'antd';
+import ReactDOM from 'react-dom';
 
 export const Modal = ({ children, isModalVisible, closeModal }) => {
-  //   const handleOk = () => {
-  //     setIsModalVisible(false);
-  //   };
-
-  //   const handleCancel = () => {
-  //     setIsModalVisible(false);
-  //   };
   if (!isModalVisible) return null;
-  return (
+  return ReactDOM.createPortal(
     <>
-      {/* <Button type="primary" onClick={showModal}>
-      Open Modal
-    </Button> */}
-      <ANTDModal
-        title="Basic Modal"
-        visible={isModalVisible}
-        // onOk={handleOk}
-        onCancel={closeModal}
-      >
+      <div className="modal-fade"></div>
+      <div title="Basic Modal" visible={isModalVisible} onCancel={closeModal}>
         {children}
-      </ANTDModal>
-    </>
+      </div>
+    </>,
+    document.getElementById('modal-root'),
   );
 };
