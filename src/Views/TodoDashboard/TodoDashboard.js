@@ -27,6 +27,23 @@ const todoReducer = (todoLists, action) => {
       ];
     case TODO_ACTIONS.DELETE_LIST:
       return todoLists.filter((list) => list.id !== action.payload.listId);
+    case TODO_ACTIONS.ADD_TASK:
+      console.log(action.payload.taskData);
+      return todoLists.map((list) => {
+        if (list.id === action.payload.taskData.listId) {
+          return {
+            ...list,
+            tasks: [
+              {
+                id: Date.now(),
+                name: action.payload.taskData.taskName,
+              },
+              ...list.tasks,
+            ],
+          };
+        }
+        return list;
+      });
     case TODO_ACTIONS.DELETE_TASK:
       return todoLists.map((list) => {
         if (list.id === action.payload.listId) {
@@ -90,6 +107,9 @@ export const TodoDashboard = () => {
   const handleDeleteList = (listId) => {
     dispatch({ type: TODO_ACTIONS.DELETE_LIST, payload: { listId: listId } });
   };
+  const handleAddTask = (taskData) => {
+    dispatch({ type: TODO_ACTIONS.ADD_TASK, payload: { taskData: taskData } });
+  };
   const handleDeleteTask = (listId, taskId) => {
     dispatch({ type: TODO_ACTIONS.DELETE_TASK, payload: { listId: listId, taskId: taskId } });
   };
@@ -147,6 +167,7 @@ export const TodoDashboard = () => {
                 <TodoListCard
                   todoList={list}
                   handleDeleteList={handleDeleteList}
+                  handleAddTask={handleAddTask}
                   handleDeleteTask={handleDeleteTask}
                   handleToggleTask={handleToggleTask}
                   handleCompleteAll={handleCompleteAll}
