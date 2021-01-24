@@ -1,9 +1,12 @@
-import classes from './Sidebar.module.css';
+import { StyledSidebar, ProfileWrapper, ProfileImage } from './Sidebar.styles';
 
 export const Sidebar = () => {
   return (
-    <div className={classes.Sidebar}>
-      <h1>Sidebar</h1>
-    </div>
+    <StyledSidebar>
+      <ProfileWrapper>
+        <ProfileImage src="https://placeimg.com/300/300/people" alt="<USER> avatar" />
+        <p>Sebastian Matysiak</p>
+      </ProfileWrapper>
+    </StyledSidebar>
   );
 };

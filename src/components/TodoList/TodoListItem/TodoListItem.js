@@ -1,17 +1,18 @@
-import './TodoListItem.css';
+import { ListItem } from './TodoListItem.styles';
+import { CustomCheckbox } from '../../CustomCheckbox/CustomCheckbox';
 
 export const TodoListItem = ({ task, listId, handleDeleteTask, handleToggleTask }) => {
   return (
-    <li>
-      <label htmlFor="checkbox">{task.name}</label>
-      <input
+    <ListItem>
+      <CustomCheckbox
         type="checkbox"
         name="taskName"
-        id="taskName"
+        id={`list_${listId}_task_${task.id}`}
         checked={task.done}
         onChange={() => handleToggleTask(listId, task.id)}
       />
+      <label htmlFor={`list_${listId}_task_${task.id}`}>{task.name}</label>
       <button onClick={() => handleDeleteTask(listId, task.id)}>Delete task</button>
-    </li>
+    </ListItem>
   );
 };

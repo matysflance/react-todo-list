@@ -1,16 +1,16 @@
 import { Sidebar } from '../Sidebar/Sidebar';
 // import { AddTodo } from './Views/AddTodo/AddTodo';
 import { TodoDashboard } from '../../Views/TodoDashboard/TodoDashboard';
-import classes from './App.module.css';
+import { Wrapper, ContentWrapper } from './App.styles';
 
 export const App = () => {
   return (
-    <main className={classes.wrapper}>
+    <Wrapper>
       <Sidebar />
-      {/* <AddTodo /> */}
-      <div className={classes.content}>
+      <ContentWrapper>
+        {/* <AddTodo /> */}
         <TodoDashboard />
-      </div>
-    </main>
+      </ContentWrapper>
+    </Wrapper>
   );
 };

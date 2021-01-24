@@ -1,98 +1,22 @@
-import { useState, useEffect, useReducer } from 'react';
-import { TodoListCard } from '../../components/TodoListCard/TodoListCard';
+import { useState, useReducer } from 'react';
+import { TodoList } from '../../components/TodoList/TodoList';
+import { TODO_ACTIONS } from '../../actions/todoActions';
+import { todoReducer } from '../../reducers/todoReducer';
 
-const TODO_ACTIONS = {
-  ADD_LIST: 'add-list',
-  DELETE_LIST: 'delete-list',
-  ADD_TASK: 'add-task',
-  DELETE_TASK: 'delete-task',
-  TOGGLE_TASK: 'toggle-task',
-  COMPLETE_ALL_TASKS: 'complete-all-tasks',
-};
-
-const todoReducer = (todoLists, action) => {
-  switch (action.type) {
-    case TODO_ACTIONS.ADD_LIST:
-      return [
-        {
-          id: Date.now(),
-          name: action.payload.name,
-          tasks: [],
-        },
-        ...todoLists,
-      ];
-    case TODO_ACTIONS.DELETE_LIST:
-      return todoLists.filter((list) => list.id !== action.payload.listId);
-    case TODO_ACTIONS.ADD_TASK:
-      console.log(action.payload.taskData);
-      return todoLists.map((list) => {
-        if (list.id === action.payload.taskData.listId) {
-          return {
-            ...list,
-            tasks: [
-              {
-                id: Date.now(),
-                name: action.payload.taskData.taskName,
-              },
-              ...list.tasks,
-            ],
-          };
-        }
-        return list;
-      });
-    case TODO_ACTIONS.DELETE_TASK:
-      return todoLists.map((list) => {
-        if (list.id === action.payload.listId) {
-          return {
-            ...list,
-            tasks: list.tasks.filter((task) => task.id !== action.payload.taskId),
-          };
-        }
-        return list;
-      });
-    case TODO_ACTIONS.TOGGLE_TASK:
-      return todoLists.map((list) => {
-        if (list.id === action.payload.listId) {
-          return {
-            ...list,
-            tasks: list.tasks.map((task) => {
-              if (task.id === action.payload.taskId) {
-                return {
-                  ...task,
-                  done: !task.done,
-                };
-              }
-              return task;
-            }),
-          };
-        }
-        return list;
-      });
-    case TODO_ACTIONS.COMPLETE_ALL_TASKS:
-      return todoLists.map((list) => {
-        if (list.id === action.payload.listId) {
-          return {
-            ...list,
-            tasks: list.tasks.map((task) => {
-              return {
-                ...task,
-                done: true,
-              };
-            }),
-          };
-        }
-        return list;
-      });
-    default:
-      return todoLists;
-  }
-};
+import { StyledTodoDashboard, Header, Form, TodosWrapper } from './TodoDashboard.styles';
+import { Button } from '../../components/Button/Button';
 
 export const TodoDashboard = () => {
+  const [newListName, setNewListName] = useState('');
   const [todoLists, dispatch] = useReducer(todoReducer, initialTodoLists);
 
-  const handleSubmit = (values) => {
-    dispatch({ type: TODO_ACTIONS.ADD_LIST, payload: { name: values.todoListName } });
+  const handleNewListInput = (e) => {
+    setNewListName(e.target.value);
+  };
+
+  const handleNewListSubmit = (e) => {
+    e.preventDefault();
+    dispatch({ type: TODO_ACTIONS.ADD_LIST, payload: { name: newListName } });
   };
   const handleDeleteList = (listId) => {
     dispatch({ type: TODO_ACTIONS.DELETE_LIST, payload: { listId: listId } });
@@ -111,27 +35,36 @@ export const TodoDashboard = () => {
   };
 
   return (
-    <section>
-      <header>
+    <StyledTodoDashboard>
+      <Header>
         <h1>Your Todos</h1>
-      </header>
-      <form action="" onSubmit={handleSubmit}>
-        <input type="text" name="todoListName" required />
-        <button type="submit">Add</button>
-      </form>
+      </Header>
+      <div className="container">
+        <Form onSubmit={(e) => handleNewListSubmit(e)}>
+          <input
+            type="text"
+            name="todoListName"
+            value={newListName}
+            onChange={handleNewListInput}
+            required
+          />
+          <Button type="submit">Add</Button>
+        </Form>
+      </div>
 
-      {todoLists.map((list) => (
-        <TodoListCard
-          todoList={list}
-          handleDeleteList={handleDeleteList}
-          handleAddTask={handleAddTask}
-          handleDeleteTask={handleDeleteTask}
-          handleToggleTask={handleToggleTask}
-          handleCompleteAll={handleCompleteAll}
-        />
-      ))}
-      <footer>Created by Sebastian Matysiak</footer>
-    </section>
+      <TodosWrapper>
+        {todoLists.map((list) => (
+          <TodoList
+            todoList={list}
+            handleDeleteList={handleDeleteList}
+            handleAddTask={handleAddTask}
+            handleDeleteTask={handleDeleteTask}
+            handleToggleTask={handleToggleTask}
+            handleCompleteAll={handleCompleteAll}
+          />
+        ))}
+      </TodosWrapper>
+    </StyledTodoDashboard>
   );
 };
 

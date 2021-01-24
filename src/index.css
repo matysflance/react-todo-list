@@ -1,10 +1,16 @@
 :root {
-  --main-background-color: #eeeeee;
-  --sidebar-background-color: #383838;
-  --color-primary: #4ca2cd;
-  --color-primary-dark: #2698d1;
-  --color-secondary: #67b26f;
-  --border-radius: 3rem;
+  /* --bdazzled-blue: #3d5a80;
+    --pale-cerulean: #98c1d9;
+    --light-cyan: #e0fbfc;
+    --burnt-sienna: #ee6c4d;
+    --gunmetal: #293241; */
+  --main-background-color: #d9e8e9;
+  --sidebar-background-color: #293241;
+  --color-primary: #3d5a80;
+  /* --color-primary-dark: #2698d1; */
+  --color-secondary: #537a5a;
+  --border-radius: 3px;
+  --default-transition-timing-function: cubic-bezier(0.41, 1, 0.52, 0.96);
 }
 
 /* BASIC CSS RESET */
