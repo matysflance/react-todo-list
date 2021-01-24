@@ -5,13 +5,12 @@ export const TodoListItem = ({ task, listId, handleDeleteTask, handleToggleTask 
   return (
     <ListItem>
       <CustomCheckbox
-        type="checkbox"
         name="taskName"
         id={`list_${listId}_task_${task.id}`}
         checked={task.done}
         onChange={() => handleToggleTask(listId, task.id)}
+        label={task.name}
       />
-      <label htmlFor={`list_${listId}_task_${task.id}`}>{task.name}</label>
       <button onClick={() => handleDeleteTask(listId, task.id)}>Delete task</button>
     </ListItem>
   );
