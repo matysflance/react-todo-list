@@ -14,14 +14,6 @@ export const TodoList = ({
   handleCompleteAll,
 }) => {
   console.log(todoList);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const openModal = () => {
-    setIsModalVisible(true);
-  };
-  const closeModal = () => {
-    setIsModalVisible(false);
-  };
 
   return (
     <StyledTodoList>
@@ -30,7 +22,7 @@ export const TodoList = ({
         <Button onClick={() => handleDeleteList(todoList.id)}>X</Button>
       </Header>
       <Body>
-        <Button onClick={() => openModal()}>+ New task</Button>
+        <Button onClick={() => console.log('add new task clicked')}>+ New task</Button>
         <ul>
           {todoList.tasks.map((task) => (
             <TodoListItem
@@ -57,13 +49,13 @@ export const TodoList = ({
         )}
       </Body>
 
-      {/* <Modal isModalVisible={isModalVisible} closeModal={closeModal}>
+      {/*
         <form>
           <input type="hidden" name="listId" value={todoList.id} />
           <input type="text" name="taskName" id="taskName" />
           <button type="submit">Add task</button>
         </form>
-      </Modal> */}
+      */}
     </StyledTodoList>
   );
 };

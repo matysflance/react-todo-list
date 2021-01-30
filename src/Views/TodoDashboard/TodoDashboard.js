@@ -17,6 +17,7 @@ export const TodoDashboard = () => {
   const handleNewListSubmit = (e) => {
     e.preventDefault();
     dispatch({ type: TODO_ACTIONS.ADD_LIST, payload: { name: newListName } });
+    setNewListName('');
   };
   const handleDeleteList = (listId) => {
     dispatch({ type: TODO_ACTIONS.DELETE_LIST, payload: { listId: listId } });
