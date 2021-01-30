@@ -49,13 +49,14 @@ export const TodoDashboard = () => {
             onChange={handleNewListInput}
             required
           />
-          <Button type="submit">Add</Button>
+          <Button type="submit">Add new list</Button>
         </Form>
       </div>
 
       <TodosWrapper>
         {todoLists.map((list) => (
           <TodoList
+            key={list.id}
             todoList={list}
             handleDeleteList={handleDeleteList}
             handleAddTask={handleAddTask}

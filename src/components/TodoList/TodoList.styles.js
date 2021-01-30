@@ -26,3 +26,12 @@ export const Body = styled.div`
   flex-direction: column;
   position: relative;
 `;
+
+export const Form = styled.form`
+  display: flex;
+`;
+
+export const Input = styled.input`
+  flex-grow: 1;
+  padding: 0.4rem 0.7rem;
+`;

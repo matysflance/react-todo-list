@@ -23,6 +23,7 @@ export const todoReducer = (todoLists, action) => {
               {
                 id: Date.now(),
                 name: action.payload.taskData.taskName,
+                done: false,
               },
               ...list.tasks,
             ],

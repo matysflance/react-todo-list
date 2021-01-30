@@ -3,7 +3,7 @@ import { TodoListItem } from './TodoListItem/TodoListItem';
 
 // import { Modal } from '../Modal/Modal';
 import { Button } from '../Button/Button';
-import { StyledTodoList, Header, Title, Body } from './TodoList.styles';
+import { StyledTodoList, Header, Title, Body, Form, Input } from './TodoList.styles';
 
 export const TodoList = ({
   todoList,
@@ -14,6 +14,17 @@ export const TodoList = ({
   handleCompleteAll,
 }) => {
   console.log(todoList);
+  const [newTaskName, setNewTaskName] = useState('');
+
+  const handleNewTaskNameChanged = (e) => {
+    setNewTaskName(e.target.value);
+  };
+
+  const handleNewTaskSubmit = (e) => {
+    e.preventDefault();
+    handleAddTask({ listId: todoList.id, taskName: newTaskName });
+    setNewTaskName('');
+  };
 
   return (
     <StyledTodoList>
@@ -22,7 +33,17 @@ export const TodoList = ({
         <Button onClick={() => handleDeleteList(todoList.id)}>X</Button>
       </Header>
       <Body>
-        <Button onClick={() => console.log('add new task clicked')}>+ New task</Button>
+        {/* <Button onClick={() => console.log('add new task clicked')}>+ New task</Button> */}
+        <Form onSubmit={(e) => handleNewTaskSubmit(e)}>
+          <Input
+            type="text"
+            name="taskName"
+            value={newTaskName}
+            onChange={handleNewTaskNameChanged}
+            required
+          />
+          <Button type="submit">Add task</Button>
+        </Form>
         <ul>
           {todoList.tasks.map((task) => (
             <TodoListItem
@@ -36,14 +57,14 @@ export const TodoList = ({
           ))}
         </ul>
         {todoList.tasks.length > 0 ? (
-          <button
+          <Button
             type="button"
             onClick={() => {
               handleCompleteAll(todoList.id);
             }}
           >
             Mark all as complete
-          </button>
+          </Button>
         ) : (
           false
         )}
