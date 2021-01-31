@@ -1,28 +1,14 @@
-import { useState, useReducer, useEffect } from 'react';
+import { useState, useReducer } from 'react';
 import { TodoList } from '../../components/TodoList/TodoList';
 import { TODO_ACTIONS } from '../../actions/todoActions';
 import { todoReducer } from '../../reducers/todoReducer';
-import firebase from '../../config/firebase/firebaseConfig';
 
 import { StyledTodoDashboard, Header, Form, TodosWrapper } from './TodoDashboard.styles';
 import { Button } from '../../components/Button/Button';
 
-const db = firebase.firestore();
-
 export const TodoDashboard = () => {
   const [newListName, setNewListName] = useState('');
   const [todoLists, dispatch] = useReducer(todoReducer, initialTodoLists);
-
-  useEffect(() => {
-    db.collection('todoLists')
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          console.log(doc.data());
-          console.log(`${doc.id} => ${doc.data()}`);
-        });
-      });
-  }, []);
 
   const handleNewListInput = (e) => {
     setNewListName(e.target.value);
