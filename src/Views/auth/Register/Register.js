@@ -1,35 +1,76 @@
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
 
-import { useUserContext } from '../../../context/userContext';
+import { auth } from '../../../config/firebase/firebaseConfig';
+import { Button } from '../../../components/Button/Button';
+import { FormWrapper, Form, FormGroup, Input } from './Register.styles';
+
+import { NavigationPaths } from '../../../config/routing/NavigationPaths';
+import { SIGNUP_ACTIONS } from '../../../actions/signupActions';
+import { signupReducer } from '../../../reducers/signupReducer';
+import { useHistory } from 'react-router-dom';
+
+const initialSignupState = {
+  email: '',
+  password: '',
+  errorCode: '',
+  errorMessage: '',
+};
 
 export const Register = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const { signUp } = useUserContext();
+  const history = useHistory();
+  const [signupState, dispatch] = useReducer(signupReducer, initialSignupState);
+  console.log(signupState);
 
   const handleEmailChanged = (e) => {
-    setEmail(e.target.value);
+    dispatch({ type: SIGNUP_ACTIONS.EMAIL_CHANGED, payload: { email: e.target.value } });
+    // setEmail(e.target.value);
   };
   const handlePasswordChanged = (e) => {
-    setPassword(e.target.value);
+    dispatch({ type: SIGNUP_ACTIONS.PASSWORD_CHANGED, payload: { password: e.target.value } });
+    // setPassword(e.target.value);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    signUp(email, password);
+    auth
+      .createUserWithEmailAndPassword(signupState.email, signupState.password)
+      .then((userCredential) => {
+        // Signed up
+        console.log('signed up successfully');
+        console.log(userCredential);
+        history.push(NavigationPaths.TODOS);
+      })
+      .catch((error) => {
+        dispatch({ type: SIGNUP_ACTIONS.ERROR_OCCURED, payload: { error: error } });
+      });
   };
 
   return (
-    <div>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <input type="email" value={email} onChange={(e) => handleEmailChanged(e)} required />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => handlePasswordChanged(e)}
-          required
-        />
-        <button type="submit">Create an account</button>
-      </form>
-    </div>
+    <FormWrapper>
+      {signupState.errorMessage && <p>{signupState.errorMessage}</p>}
+      <Form onSubmit={(e) => handleSubmit(e)}>
+        <FormGroup>
+          <label htmlFor="email">Email</label>
+          <Input
+            type="email"
+            id="email"
+            value={signupState.email}
+            onChange={(e) => handleEmailChanged(e)}
+            required
+          />
+        </FormGroup>
+        <FormGroup>
+          <label htmlFor="password">Password</label>
+          <Input
+            type="password"
+            id="password"
+            value={signupState.password}
+            onChange={(e) => handlePasswordChanged(e)}
+            required
+          />
+        </FormGroup>
+
+        <Button type="submit">Create an account</Button>
+      </Form>
+    </FormWrapper>
   );
 };
