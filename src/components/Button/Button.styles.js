@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 export const StyledButton = styled.button`
-  color: var(--color-${(props) => (props.secondary ? 'secondary' : 'primary')});
-  background-color: transparent;
+  color: var(--color-white);
+  background-color: var(--color-${(props) => (props.secondary ? 'secondary' : 'primary')});
   border: 1px solid var(--color-${(props) => (props.secondary ? 'secondary' : 'primary')});
   border-radius: var(--border-radius);
   padding: 0.5rem 1rem;
