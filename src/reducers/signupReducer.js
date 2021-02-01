@@ -1,7 +1,6 @@
 import { SIGNUP_ACTIONS } from '../actions/signupActions';
 
 export const signupReducer = (signupState, action) => {
-  console.log(action);
   switch (action.type) {
     case SIGNUP_ACTIONS.EMAIL_CHANGED:
       return {
