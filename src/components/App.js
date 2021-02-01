@@ -24,6 +24,7 @@ const GlobalStyle = createGlobalStyle`
       --light-cyan: #e0fbfc;
       --burnt-sienna: #ee6c4d;
       --gunmetal: #293241; */
+    --color-white: #fff;
     --main-background-color: #d9e8e9;
     --sidebar-background-color: #293241;
     --color-primary: #3d5a80;
