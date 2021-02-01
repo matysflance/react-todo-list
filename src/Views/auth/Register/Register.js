@@ -23,20 +23,15 @@ export const Register = () => {
 
   const handleEmailChanged = (e) => {
     dispatch({ type: SIGNUP_ACTIONS.EMAIL_CHANGED, payload: { email: e.target.value } });
-    // setEmail(e.target.value);
   };
   const handlePasswordChanged = (e) => {
     dispatch({ type: SIGNUP_ACTIONS.PASSWORD_CHANGED, payload: { password: e.target.value } });
-    // setPassword(e.target.value);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     auth
       .createUserWithEmailAndPassword(signupState.email, signupState.password)
       .then((userCredential) => {
-        // Signed up
-        console.log('signed up successfully');
-        console.log(userCredential);
         history.push(NavigationPaths.TODOS);
       })
       .catch((error) => {
